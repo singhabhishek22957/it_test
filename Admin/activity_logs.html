@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Activity Logs - Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <!-- NAVBAR -->
+  <nav class="bg-blue-600 p-4 shadow-md">
+    <div class="max-w-6xl mx-auto text-white text-xl font-bold">
+      📜 Activity Logs - Admin Panel
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="max-w-5xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Website Activity Logs</h2>
+
+    <div id="logTable"></div>
+  </div>
+
+  <script>
+    // 🔐 Check if admin is logged in
+    if (localStorage.getItem("adminLoggedIn") !== "true") {
+      alert("Unauthorized access. Redirecting to login...");
+      window.location.href = "admin-login.html";
+    }
+
+    const logs = JSON.parse(localStorage.getItem("activityLogs")) || [];
+    const logTableDiv = document.getElementById("logTable");
+
+    if (logs.length === 0) {
+      logTableDiv.innerHTML = `
+        <p class="text-center text-gray-600 text-lg">🟢 No activities recorded yet.</p>
+      `;
+    } else {
+      let tableHTML = `
+        <div class="overflow-x-auto">
+          <table class="min-w-full border text-sm text-gray-700">
+            <thead>
+              <tr class="bg-yellow-100 text-left">
+                <th class="py-2 px-4 border">#</th>
+                <th class="py-2 px-4 border">Timestamp</th>
+                <th class="py-2 px-4 border">Team Name</th>
+                <th class="py-2 px-4 border">Event</th>
+                <th class="py-2 px-4 border">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+
+      logs.forEach((log, index) => {
+        tableHTML += `
+          <tr class="border-t">
+            <td class="py-2 px-4 border">${index + 1}</td>
+            <td class="py-2 px-4 border">${log.time}</td>
+            <td class="py-2 px-4 border">${log.teamName || "N/A"}</td>
+            <td class="py-2 px-4 border">${log.event || "N/A"}</td>
+            <td class="py-2 px-4 border">${log.action}</td>
+          </tr>
+        `;
+      });
+
+      tableHTML += `
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      logTableDiv.innerHTML = tableHTML;
+    }
+  </script>
+
+</body>
+</html>

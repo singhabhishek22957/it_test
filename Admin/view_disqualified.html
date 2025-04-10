@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Disqualified Teams - Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <!-- NAVBAR -->
+  <nav class="bg-blue-600 p-4 shadow-md">
+    <div class="max-w-6xl mx-auto text-white text-xl font-bold">
+      ❌ Disqualified Teams - Admin Panel
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">List of Disqualified Teams</h2>
+    
+    <div id="disqualifiedList"></div>
+  </div>
+
+  <script>
+    // 🚫 Check Admin Auth
+    if (localStorage.getItem("adminLoggedIn") !== "true") {
+      alert("Unauthorized access. Redirecting to login...");
+      window.location.href = "admin-login.html";
+    }
+
+    const disqualifiedListDiv = document.getElementById("disqualifiedList");
+
+    // 🔍 Fetch disqualified teams from localStorage
+    const disqualified = JSON.parse(localStorage.getItem("disqualifiedTeams")) || [];
+
+    if (disqualified.length === 0) {
+      disqualifiedListDiv.innerHTML = `
+        <p class="text-center text-gray-600 text-lg">🎉 No teams have been disqualified yet.</p>
+      `;
+    } else {
+      // 🧾 Create a table
+      let tableHTML = `
+        <div class="overflow-x-auto">
+          <table class="min-w-full border text-sm text-gray-700">
+            <thead>
+              <tr class="bg-blue-100 text-left">
+                <th class="py-2 px-4 border">#</th>
+                <th class="py-2 px-4 border">Team Name</th>
+                <th class="py-2 px-4 border">Event</th>
+                <th class="py-2 px-4 border">Reason</th>
+              </tr>
+            </thead>
+            <tbody>
+      `;
+
+      disqualified.forEach((team, index) => {
+        tableHTML += `
+          <tr class="border-t">
+            <td class="py-2 px-4 border">${index + 1}</td>
+            <td class="py-2 px-4 border">${team.teamName}</td>
+            <td class="py-2 px-4 border">${team.event}</td>
+            <td class="py-2 px-4 border">${team.reason || "Violated Rules"}</td>
+          </tr>
+        `;
+      });
+
+      tableHTML += `
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      disqualifiedListDiv.innerHTML = tableHTML;
+    }
+  </script>
+
+</body>
+</html>

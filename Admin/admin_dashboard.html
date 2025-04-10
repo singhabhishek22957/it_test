@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - IT Utsav 3.0</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <!-- NAVBAR -->
+  <nav class="bg-blue-600 p-4 shadow-lg">
+    <div class="max-w-6xl mx-auto flex justify-between items-center text-white">
+      <h1 class="text-xl font-bold">🎛️ Admin Dashboard - IT Utsav 3.0</h1>
+      <button 
+        onclick="logout()" 
+        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+      >
+        Logout
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="max-w-4xl mx-auto mt-10 p-4">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Welcome, Admin 👋</h2>
+
+    <!-- DASHBOARD CARDS -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- View Disqualified Teams -->
+      <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2">📋 View Disqualified Teams</h3>
+        <p class="text-gray-600 mb-4">Check which teams are disqualified.</p>
+        <a href="view_disqualified.html" class="text-blue-600 font-medium hover:underline">View</a>
+      </div>
+
+      <!-- Download Excel -->
+      <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2">📥 Download Excel Sheet</h3>
+          <button onclick="window.location.href='excel_sheet.html'" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded">
+            Download Excel Sheet
+          </button>
+      </div>
+
+      <!-- Activity Logs -->
+      <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition">
+        <h3 class="text-xl font-semibold mb-2">📊 Activity Logs</h3>
+        <p class="text-gray-600 mb-4">Track user interactions and events.</p>
+        <a href="activity_logs.html" class="text-blue-600 font-medium hover:underline">Open Logs</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 🛡️ Redirect if not logged in
+    if (localStorage.getItem("adminLoggedIn") !== "true") {
+      alert("Unauthorized access. Please login first.");
+      window.location.href = "admin-login.html";
+    }
+
+    // 🔓 Logout function
+    function logout() {
+      localStorage.removeItem("adminLoggedIn");
+      window.location.href = "admin-login.html";
+    }
+
+    // 📤 Dummy Excel Download
+    function downloadExcel() {
+      alert("Download started! (You'll replace this with real file download code)");
+      // In real implementation, you'd trigger actual file download here
+    }
+  </script>
+</body>
+</html>

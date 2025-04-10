@@ -1,0 +1,13 @@
+[build]
+builder = "nixpacks"
+buildCommand = "./mvnw clean package -DskipTests"
+
+[deploy]
+startCommand = "java -jar target/Treasurehunt-0.0.1-SNAPSHOT.jar"
+healthcheckPath = "/"
+healthcheckTimeout = 100
+restartPolicyType = "on-failure"
+restartPolicyMaxRetries = 10
+
+[deploy.env]
+PORT = "8080" 
